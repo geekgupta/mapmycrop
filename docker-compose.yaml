@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  backend:
+    build: 
+      context: ./
+      dockerfile: Dockerfile
+    image: puru21/crop:0.0.1
+    container_name: crop-container
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/backend
+
+    command: "python manage.py runserver 0.0.0.0:8000"

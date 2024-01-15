@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crop-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: crop-backend
+  template:
+    metadata:
+      labels:
+        app: crop-backend
+    spec:
+      containers:
+      - name: crop-con
+        image: puru21/crop:0.0.1
+        command: ["sh" , "-c"]
+        args: ["python manage.py runserver 0.0.0.0:8000"]
+
+        ports:
+        - containerPort: 8000
+
+
+
+--- 
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: crop-backend-service
+spec:
+  selector:
+    app: crop-backend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000
+  type: LoadBalancer
